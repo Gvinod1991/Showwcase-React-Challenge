@@ -69,3 +69,7 @@ export const Label = styled.p`
   font-size:1rem;
   color:${({ theme }) => (theme.colors.text)}
 `
+export const ErrorLabel = styled.p`
+  font-size:1rem;
+  color:${({ theme }) => (theme.colors.error)}
+`

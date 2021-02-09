@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import ImageIcon from '../../components/ImageIcon';
 import ModalComponent from '../../components/Modal';
 import Input from '../../components/Input';
+import { saveEducationalExperiences } from '../../store/action';
 import {
   ShowcaseWrapper,
   ContentWrapper,
@@ -16,7 +17,8 @@ import {
   H1,
   ColumnBoxEnd,
   Label,
-  AddNewBtnWrapper
+  AddNewBtnWrapper,
+  ErrorLabel
 } from '../../styles/showcase.styles';
 const menuIconURl = '/menu.svg';
 
@@ -26,6 +28,7 @@ interface RootState {
 
 export default function ShowCase() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [showSideNav, setShowSideNav] = useState<Boolean>(true);
   const userName = useSelector(({ HomeReducer: { userName } }: RootState) => userName);
 
@@ -39,16 +42,54 @@ export default function ShowCase() {
     grade: "",
     anyThingMore: "",
   });
-  const closeModal = () => {
-    setModalIsOpen(false);
-  }
+  const [errors, setErrors] = useState({
+    schoolName: "",
+    degree: "",
+    fieldOfStudy: "",
+    startYear: "",
+    endYear: "",
+    grade: ""
+  });
   useEffect(() => {
     if (!userName || userName === "") {
       router.push('/');
     }
   }, [userName]);
+  const closeModal = () => {
+    setModalIsOpen(false);
+  }
 
-  const { schoolName } = educationalExperiences;
+  const handleInputChange = ({ name, value }) => {
+    setEducationalExperiences((prevState) => ({ ...prevState, [name]: value }));
+  }
+  const handleSave = () => {
+    const educationObj = { ...educationalExperiences };
+    const errorsObj = { ...errors };
+    let allValid = true;
+    Object.keys(educationObj).forEach((key: string) => {
+      if (educationObj[key].length === 0) {
+        allValid = false;
+        errorsObj[key] = `${key.split(/(?=[A-Z])/).join(" ").toLocaleLowerCase()} is required`;
+      } else {
+        errorsObj[key] = "";
+      }
+    });
+    if (!allValid) {
+      setErrors(errorsObj);
+      return false;
+    }
+    dispatch(saveEducationalExperiences(educationObj));
+  }
+
+  const {
+    schoolName,
+    degree,
+    fieldOfStudy,
+    startYear,
+    endYear,
+    grade,
+    anyThingMore } = educationalExperiences;
+
   return (
     <ShowcaseWrapper>
       <AddNewBtnWrapper>
@@ -84,39 +125,83 @@ export default function ShowCase() {
               <RowBox>
                 <ColumnBox>
                   <Label>Name of School</Label>
-                  <Input placeholder="Name of School" onChange={(e) => { }} value={schoolName} />
+                  <Input
+                    placeholder="Name of School"
+                    onChange={(e) =>
+                      handleInputChange({ name: 'schoolName', value: e.currentTarget.value })
+                    }
+                    value={schoolName}
+                  />
+                  {errors.schoolName.length > 0 && <ErrorLabel color={"red"}>{errors.schoolName}</ErrorLabel>}
                 </ColumnBox>
                 <ColumnBox>
                   <Label>Degree</Label>
-                  <Input placeholder="Degree" onChange={(e) => { }} value={schoolName} />
+                  <Input
+                    placeholder="Degree"
+                    onChange={(e) =>
+                      handleInputChange({ name: 'degree', value: e.currentTarget.value })
+                    }
+                    value={degree}
+                  />
+                  {errors.degree.length > 0 && <ErrorLabel color={"red"}>{errors.degree}</ErrorLabel>}
                 </ColumnBox>
               </RowBox>
               <RowBox>
                 <ColumnBox>
                   <Label>Field Of Study</Label>
-                  <Input placeholder="Field Of Study" onChange={(e) => { }} value={schoolName} />
+                  <Input
+                    placeholder="Field Of Study"
+                    onChange={(e) =>
+                      handleInputChange({ name: 'fieldOfStudy', value: e.currentTarget.value })
+                    }
+                    value={fieldOfStudy}
+                  />
+                  {errors.fieldOfStudy.length > 0 && <ErrorLabel color={"red"}>{errors.fieldOfStudy}</ErrorLabel>}
                 </ColumnBox>
                 <ColumnBox>
                   <Label>Start Year</Label>
-                  <Input placeholder="Start Year" onChange={(e) => { }} value={schoolName} />
+                  <Input
+                    placeholder="Start Year"
+                    onChange={(e) =>
+                      handleInputChange({ name: 'startYear', value: e.currentTarget.value })
+                    }
+                    value={startYear} />
+                  {errors.startYear.length > 0 && <ErrorLabel color={"red"}>{errors.startYear}</ErrorLabel>}
                 </ColumnBox>
               </RowBox>
               <RowBox>
                 <ColumnBox>
                   <Label>End Year/Expected End Year</Label>
-                  <Input placeholder="End Year/Expected End Year" onChange={(e) => { }} value={schoolName} />
+                  <Input
+                    placeholder="End Year/Expected End Year"
+                    onChange={(e) =>
+                      handleInputChange({ name: 'endYear', value: e.currentTarget.value })
+                    }
+                    value={endYear} />
+                  {errors.endYear.length > 0 && <ErrorLabel color={"red"}>{errors.endYear}</ErrorLabel>}
                 </ColumnBox>
                 <ColumnBox>
                   <Label>Grade</Label>
-                  <Input placeholder="Start Year" onChange={(e) => { }} value={schoolName} />
+                  <Input
+                    placeholder="Grade"
+                    onChange={(e) =>
+                      handleInputChange({ name: 'grade', value: e.currentTarget.value })
+                    }
+                    value={grade} />
+                  {errors.grade.length > 0 && <ErrorLabel color={"red"}>{errors.grade}</ErrorLabel>}
                 </ColumnBox>
               </RowBox>
               <ColumnBox>
                 <Label>Any thing More you want to add ?</Label>
-                <Input placeholder="Any thing More you want to add ?" onChange={(e) => { }} value={schoolName} />
+                <Input
+                  placeholder="Any thing More you want to add ?"
+                  onChange={(e) =>
+                    handleInputChange({ name: 'anyThingMore', value: e.currentTarget.value })
+                  }
+                  value={anyThingMore} />
               </ColumnBox>
               <ColumnBoxEnd>
-                <Button onClick={() => { }}> Save</Button>
+                <Button onClick={() => handleSave()}> Save</Button>
               </ColumnBoxEnd>
             </ColumnBox>
           </ModalContentWrapper>
