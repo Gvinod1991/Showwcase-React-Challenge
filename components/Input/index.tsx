@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import { ChangeEvent } from 'react';
 
 export type InputComponentProps = {
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void,
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void,
   value: string,
   placeholder: string,
-} & React.FormEvent<HTMLInputElement>
+}
 
 export default function Input({ onChange, ...otherProps }: InputComponentProps) {
   return <StyledInput onChange={onChange} {...otherProps} />
