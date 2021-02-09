@@ -1,13 +1,18 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Header from '../Header';
 
 interface LayoutProps {
   children: React.ReactNode
 }
+interface RootState {
+  HomeReducer: { userName: string }
+}
 
 export default function Layout({ children }: LayoutProps) {
+  const userName = useSelector(({ HomeReducer: { userName } }: RootState) => userName);
   return <>
-    <Header />
+    <Header userName={userName} />
     <MainWrapper>
       {children}
     </MainWrapper>
