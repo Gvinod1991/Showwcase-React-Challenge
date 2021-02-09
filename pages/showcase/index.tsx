@@ -5,7 +5,7 @@ import ImageIcon from '../../components/ImageIcon';
 
 import { ShowcaseWrapper, ContentWrapper, ContentBox, RowBox } from './showcase.styles';
 
-export default function Home() {
+export default function ShowCase() {
   const [showSideNav, setShowSideNav] = useState<Boolean>(true);
   return (
     <ShowcaseWrapper>
