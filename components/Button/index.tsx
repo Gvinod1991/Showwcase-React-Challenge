@@ -13,7 +13,6 @@ export const StyledButton = styled.button`
   cursor:pointer;
   font-size: 1em;
   display:block;
-  margin: 0 auto;
   padding: 0.25em 1em;
   border-radius: 3px;
   color:${({ theme }) => (theme.colors.primary)};
