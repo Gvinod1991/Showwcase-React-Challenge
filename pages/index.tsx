@@ -25,7 +25,9 @@ export default function Home() {
       <Label>Type of your name and click "Enter" to begin</Label>
       <Input onChange={handleChange}
         placeholder={"Your Name"} value={userName} />
-      <Button onClick={() => handleEnter()}>Enter</Button>
+      <ButtonWrapper>
+        <Button onClick={() => handleEnter()}>Enter</Button>
+      </ButtonWrapper>
     </HomeWrapper>
   )
 }
@@ -39,7 +41,11 @@ export const HomeWrapper = styled.div`
   align-items: center;
   font-size: 1.25rem;
 `;
+
 export const Label = styled.p`
   font-size:1rem;
   color:${({ theme }) => (theme.colors.text)}
 `
+export const ButtonWrapper = styled.div`
+  padding: 1rem
+`;

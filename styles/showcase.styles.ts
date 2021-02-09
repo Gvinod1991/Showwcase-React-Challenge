@@ -14,7 +14,7 @@ export const ContentWrapper = styled.div`
   margin-top:1rem;
 `;
 
-export const RowBox = styled.div`
+export const AddNewBtnWrapper = styled.div`
   display:flex;
   flex-direction:row;
   justify-content: center;
@@ -34,3 +34,38 @@ export const ContentBox = styled.div`
   border-radius:0;
   padding:1rem;
 `;
+export const RowBox = styled.div`
+  display:flex;
+  flex-direction:row;
+  justify-content: space-between;
+  @media screen and (max-width:420px){
+    flex-direction:column;
+  } 
+`;
+export const ColumnBox = styled.div`
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+`;
+
+export const ModalContentWrapper = styled.div`
+  width:100%
+`;
+
+export const H1 = styled.h1`
+  font-size:1.5rem;
+  text-align:center;
+  font-weight:normal;
+  color:${({ theme }) => (theme.colors.text)}
+`;
+
+export const ColumnBoxEnd = styled.div`
+  display:flex;
+  justify-content:flex-end;
+  margin-top: 1rem
+`;
+
+export const Label = styled.p`
+  font-size:1rem;
+  color:${({ theme }) => (theme.colors.text)}
+`
