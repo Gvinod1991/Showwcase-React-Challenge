@@ -10,7 +10,8 @@ export default function Header({ username }: HeaderProps) {
 }
 
 export const H1 = styled.h1`
-font-size:2rem;
-text-align:center;
-font-weight:normal
+  font-size:2rem;
+  text-align:center;
+  font-weight:normal;
+  color:${({ theme }) => (theme.colors.text)}
 `;
