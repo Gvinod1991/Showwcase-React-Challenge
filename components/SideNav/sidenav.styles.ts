@@ -13,7 +13,7 @@ export const Div = styled.div`
   border-radius:0.2rem;
   position: sticky;
   left: 0;
-  z-index: 999;
+  z-index: 2;
   top: 6rem;
   margin-right: 1rem;
   height: 100%;

@@ -10,7 +10,7 @@ export default function ImageIcon({ url, onClick }: ImageIconProps) {
 }
 
 export const Image = styled.img`
-    width:2rem;
-    height:2rem;
+    width:1.5rem;
+    cursor:pointer;
     margin-right:1rem;
 `;
