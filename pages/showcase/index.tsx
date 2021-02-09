@@ -3,7 +3,7 @@ import SideNav from '../../components/SideNav';
 import Button from '../../components/Button';
 import ImageIcon from '../../components/ImageIcon';
 
-import { ShowcaseWrapper, ContentWrapper, ContentBox, RowBox } from './showcase.styles';
+import { ShowcaseWrapper, ContentWrapper, ContentBox, RowBox } from '../../styles/showcase.styles';
 
 export default function ShowCase() {
   const [showSideNav, setShowSideNav] = useState<Boolean>(true);
@@ -37,4 +37,3 @@ export default function ShowCase() {
     </ShowcaseWrapper>
   )
 }
-
