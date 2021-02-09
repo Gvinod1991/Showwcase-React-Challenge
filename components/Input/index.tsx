@@ -12,7 +12,7 @@ export default function Input({ onChange, ...otherProps }: InputComponentProps) 
 }
 
 export const StyledInput = styled.input`
-  border: 1px solid ${({ theme }) => (theme.colors.dark)};
+  border: 1px solid ${({ theme }) => (theme.colors.primary)};
   background:${({ theme }) => (theme.colors.grey)};
   padding: 0.5em;
   margin: 0.5em;
