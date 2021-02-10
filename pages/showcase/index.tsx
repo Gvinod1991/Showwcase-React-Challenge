@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, createRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import SideNav from '../../components/SideNav';
@@ -6,6 +6,9 @@ import Button from '../../components/Button';
 import ImageIcon from '../../components/ImageIcon';
 import ModalComponent from '../../components/Modal';
 import Input from '../../components/Input';
+import EducationsList from '../../components/EducationsList';
+
+import { showToaster, TOAST_TYPE } from '../../utilities';
 import { saveEducationalExperiences } from '../../store/action';
 import {
   ShowcaseWrapper,
@@ -24,16 +27,18 @@ const menuIconURl = '/menu.svg';
 
 interface RootState {
   HomeReducer: { userName: string }
+  ShowcaseReducer: { educationalExperiencesList: [] }
 }
 
 export default function ShowCase() {
   const router = useRouter();
   const dispatch = useDispatch();
+
   const [showSideNav, setShowSideNav] = useState<Boolean>(true);
   const userName = useSelector(({ HomeReducer: { userName } }: RootState) => userName);
-
+  const educationalExperiencesList = useSelector(({ ShowcaseReducer: { educationalExperiencesList } }: RootState) => educationalExperiencesList);
   const [modalIsOpen, setModalIsOpen] = useState<Boolean>(false);
-  const [educationalExperiences, setEducationalExperiences] = useState({
+  const initialEducationalExperiences = {
     schoolName: "",
     degree: "",
     fieldOfStudy: "",
@@ -41,7 +46,8 @@ export default function ShowCase() {
     endYear: "",
     grade: "",
     anyThingMore: "",
-  });
+  }
+  const [educationalExperiences, setEducationalExperiences] = useState(initialEducationalExperiences);
   const [errors, setErrors] = useState({
     schoolName: "",
     degree: "",
@@ -50,11 +56,15 @@ export default function ShowCase() {
     endYear: "",
     grade: ""
   });
+
+  const elementsRef = useRef(educationalExperiencesList.map(() => createRef()));
+
   useEffect(() => {
     if (!userName || userName === "") {
       router.push('/');
     }
   }, [userName]);
+
   const closeModal = () => {
     setModalIsOpen(false);
   }
@@ -62,6 +72,7 @@ export default function ShowCase() {
   const handleInputChange = ({ name, value }) => {
     setEducationalExperiences((prevState) => ({ ...prevState, [name]: value }));
   }
+
   const handleSave = () => {
     const educationObj = { ...educationalExperiences };
     const errorsObj = { ...errors };
@@ -79,6 +90,8 @@ export default function ShowCase() {
       return false;
     }
     dispatch(saveEducationalExperiences(educationObj));
+    showToaster({ type: TOAST_TYPE.SUCCESS, message: "Education details saved!" });
+    setEducationalExperiences(initialEducationalExperiences);
   }
 
   const {
@@ -96,27 +109,22 @@ export default function ShowCase() {
         <ImageIcon url={menuIconURl} onClick={() => setShowSideNav(!showSideNav)} />
         <Button onClick={() => setModalIsOpen(true)}> Add new education</Button>
       </AddNewBtnWrapper>
-      <ContentWrapper>
-        <SideNav showSideNav={showSideNav} />
-        <ContentBox>
-          <div>
-            <h1>Full Stack Software Developer</h1>
-            <p>Octopolis Technologies(apnaklub.com)
-            Oct 2019 - Present
-            Bengaluru, India</p>
-            <p>Designed and developed the dashboard for the operations team to manage products, inventories, and order details. Operations team
-            time saved by 40% when this application is used as compared to manually maintaining the excel sheets for inventory and purchase orders of products from vendors.</p>
-          </div>
-          <div>
-            <h1>Full Stack Software Developer</h1>
-            <p>Octopolis Technologies(apnaklub.com)
-            Oct 2019 - Present
-            Bengaluru, India</p>
-            <p>Designed and developed the dashboard for the operations team to manage products, inventories, and order details. Operations team
-            time saved by 40% when this application is used as compared to manually maintaining the excel sheets for inventory and purchase orders of products from vendors.</p>
-          </div>
-        </ContentBox>
-      </ContentWrapper>
+      {educationalExperiencesList && educationalExperiencesList.length === 0 &&
+        <Label>you can add your educational experiences!</Label>
+      }
+      {educationalExperiencesList && educationalExperiencesList.length > 0 &&
+        <ContentWrapper>
+          <SideNav showSideNav={showSideNav}
+            educationalExperiences={educationalExperiencesList}
+            elementsRef={elementsRef}
+          />
+          <ContentBox>
+            <EducationsList educationalExperiences={educationalExperiencesList}
+              elementsRef={elementsRef}
+            />
+          </ContentBox>
+        </ContentWrapper>
+      }
       <ModalComponent closeModal={closeModal} modalIsOpen={modalIsOpen} >
         <>
           <ModalContentWrapper>

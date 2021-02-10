@@ -6,7 +6,8 @@ export default {
     error: '#CD4139',
     white: '#FFFFFF',
     success: '#62BD7A',
-    grey: '#F6F6F6',
-    dark: '#111111'
+    grey: '#E1E5E7',
+    darkGrey: '#585C61',
+    dark: '#161719'
   }
 };

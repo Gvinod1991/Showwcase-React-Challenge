@@ -35,7 +35,7 @@ export default function reducer(
       return {
         ...state,
         loading: false,
-        educationalExperiencesList: [...state.educationalExperiencesList, payload]
+        educationalExperiencesList: [payload, ...state.educationalExperiencesList]
       }
     case SAVE_EDUCATIONAL_EXPERIENCES_FAILED:
       return {

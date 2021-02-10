@@ -1,6 +1,7 @@
 import { ThemeProvider } from 'styled-components';
 import { AppProps } from 'next/app';
 import Layout from '../components/Layout';
+import 'react-toastify/dist/ReactToastify.css';
 import { GlobalStyles } from '../styles/globalStyles';
 import Theme from '../styles/theme';
 import { Provider } from 'react-redux';
