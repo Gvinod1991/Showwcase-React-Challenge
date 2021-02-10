@@ -1,14 +1,16 @@
 import { useState, ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
 import Button from '../components/Button';
 import Input from "../components/Input";
 import { saveUserName } from '../store/action';
+import { HomeWrapper, Label, ButtonWrapper } from '../styles/home.styles';
 
 export default function Home() {
 
   const [userName, setUserName] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUserName(event.currentTarget.value);
   };
@@ -16,8 +18,13 @@ export default function Home() {
   const router = useRouter();
 
   const handleEnter = () => {
-    dispatch(saveUserName(userName));
-    router.push('/showcase');
+    if (userName !== "") {
+      setErrorMessage("");
+      dispatch(saveUserName(userName));
+      router.push('/showcase');
+    } else {
+      setErrorMessage("Type your name!")
+    }
   }
 
   return (
@@ -31,21 +38,3 @@ export default function Home() {
     </HomeWrapper>
   )
 }
-
-export const HomeWrapper = styled.div`
-  padding: 2rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 1.25rem;
-`;
-
-export const Label = styled.p`
-  font-size:1rem;
-  color:${({ theme }) => (theme.colors.text)}
-`
-export const ButtonWrapper = styled.div`
-  padding: 1rem
-`;

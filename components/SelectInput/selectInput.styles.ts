@@ -38,8 +38,8 @@ export const Loader = styled.div`
   position:absolute;
   left:12rem;
   top:10rem;
-  border: 0.2rem solid  ${({ theme }) => (theme.colors.grey)}; /* Light grey */
-  border-top: 0.2rem solid ${({ theme }) => (theme.colors.light)};; /* Blue */
+  border: 0.2rem solid  ${({ theme }) => (theme.colors.grey)}; 
+  border-top: 0.2rem solid ${({ theme }) => (theme.colors.light)};
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;

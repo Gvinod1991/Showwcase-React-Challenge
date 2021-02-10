@@ -1,9 +1,10 @@
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Input from '../Input';
 import { getUniversities } from '../../store/action';
 import { debounce } from "../../utilities";
+
 import {
   Loader, Dropdown,
   DropdownContent, DropdownContentSpan,
@@ -12,7 +13,7 @@ import {
 
 interface SelectInputProps {
   handleChange: Function,
-  inputValue: string
+  inputValue: string,
 }
 
 interface RootState {
@@ -25,7 +26,6 @@ interface RootState {
 }
 const DELAY = 1000;
 export default function SelectInput({ handleChange, inputValue }: SelectInputProps) {
-
   const [showSearchList, setShowSearchList] = useState<boolean>(false);
   const [searchInProgress, setSearchInProgress] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState(inputValue);
@@ -58,11 +58,12 @@ export default function SelectInput({ handleChange, inputValue }: SelectInputPro
     }
   }, [searchQuery, searchInProgress]);
 
+
   return <>
     <Input onChange={(e) => handleInputChange(e)} value={searchQuery} placeholder="School Name" />
     {loading && <Loader />}
-    <Dropdown>
-      {showSearchList && universitiesList && (
+    <Dropdown >
+      {!loading && showSearchList && universitiesList && (
         <DropdownContent >
           {universitiesList.length > 0 ? (
             universitiesList.map((university, index) => (
