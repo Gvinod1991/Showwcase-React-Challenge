@@ -6,10 +6,11 @@ import Button from '../../components/Button';
 import ImageIcon from '../../components/ImageIcon';
 import ModalComponent from '../../components/Modal';
 import Input from '../../components/Input';
+import SelectInput from '../../components/SelectInput';
 import EducationsList from '../../components/EducationsList';
 
 import { showToaster, TOAST_TYPE } from '../../utilities';
-import { saveEducationalExperiences } from '../../store/action';
+import { saveEducationalExperiences, getUniversities } from '../../store/action';
 import {
   ShowcaseWrapper,
   ContentWrapper,
@@ -27,7 +28,11 @@ const menuIconURl = '/menu.svg';
 
 interface RootState {
   HomeReducer: { userName: string }
-  ShowcaseReducer: { educationalExperiencesList: [] }
+  ShowcaseReducer: {
+    educationalExperiencesList: any[],
+    loading: boolean,
+    universitiesList: any[]
+  },
 }
 
 export default function ShowCase() {
@@ -37,6 +42,7 @@ export default function ShowCase() {
   const [showSideNav, setShowSideNav] = useState<Boolean>(true);
   const userName = useSelector(({ HomeReducer: { userName } }: RootState) => userName);
   const educationalExperiencesList = useSelector(({ ShowcaseReducer: { educationalExperiencesList } }: RootState) => educationalExperiencesList);
+
   const [modalIsOpen, setModalIsOpen] = useState<Boolean>(false);
   const initialEducationalExperiences = {
     schoolName: "",
@@ -93,7 +99,6 @@ export default function ShowCase() {
     showToaster({ type: TOAST_TYPE.SUCCESS, message: "Education details saved!" });
     setEducationalExperiences(initialEducationalExperiences);
   }
-
   const {
     schoolName,
     degree,
@@ -102,7 +107,6 @@ export default function ShowCase() {
     endYear,
     grade,
     anyThingMore } = educationalExperiences;
-
   return (
     <ShowcaseWrapper>
       <AddNewBtnWrapper>
@@ -133,12 +137,11 @@ export default function ShowCase() {
               <RowBox>
                 <ColumnBox>
                   <Label>Name of School</Label>
-                  <Input
-                    placeholder="Name of School"
-                    onChange={(e) =>
-                      handleInputChange({ name: 'schoolName', value: e.currentTarget.value })
+                  <SelectInput
+                    inputValue={schoolName}
+                    handleChange={(value) =>
+                      handleInputChange({ name: 'schoolName', value })
                     }
-                    value={schoolName}
                   />
                   {errors.schoolName.length > 0 && <ErrorLabel color={"red"}>{errors.schoolName}</ErrorLabel>}
                 </ColumnBox>
@@ -203,6 +206,7 @@ export default function ShowCase() {
                 <Label>Any thing More you want to add ?</Label>
                 <Input
                   placeholder="Any thing More you want to add ?"
+                  inputType="description"
                   onChange={(e) =>
                     handleInputChange({ name: 'anyThingMore', value: e.currentTarget.value })
                   }
