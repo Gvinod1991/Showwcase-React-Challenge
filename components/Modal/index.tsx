@@ -26,7 +26,11 @@ const customStyles = {
     margin: '1rem',
     borderRadius: '0.5rem',
     boxShadow: '0.5rem 0.5rem 1.2rem rgba(0, 0, 0, 0.18)',
-    height: '82vh'
+    height: '86vh'
+  },
+  rowEnd: {
+    display: 'flex',
+    justifyContent: 'flex-end'
   }
 };
 
@@ -54,7 +58,7 @@ export default function ModalComponent({ closeModal, modalIsOpen, children }: Mo
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={customStyles.rowEnd}>
         <ImageIcon onClick={withOverflowUnsetCloseModal} url={closeIcon} />
       </div>
       {children}
