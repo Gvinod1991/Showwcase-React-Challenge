@@ -13,7 +13,14 @@ export const HomeWrapper = styled.div`
 export const Label = styled.p`
   font-size:1rem;
   color:${({ theme }) => (theme.colors.text)}
-`
+`;
+
 export const ButtonWrapper = styled.div`
   padding: 1rem
 `;
+
+export const TextDanger = styled.p`
+  font-size:1rem;
+  text-align:center;
+  color:${({ theme }) => (theme.colors.error)}
+`

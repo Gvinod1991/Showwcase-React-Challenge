@@ -5,6 +5,10 @@ export const ShowcaseWrapper = styled.div`
   font-size: 1.25rem;
   margin-left:3rem;
   margin-right:3rem;
+  @media screen and (max-width:420px){
+    margin-left:1rem;
+    margin-right:1rem;
+  } 
 `;
 
 export const ContentWrapper = styled.div`
@@ -18,7 +22,16 @@ export const AddNewBtnWrapper = styled.div`
   display:flex;
   flex-direction:row;
   justify-content: center;
-  margin:1rem;
+  button{
+    margin:0.5rem;
+  }
+  @media screen and (max-width:420px){
+    margin:0;
+    flex-direction:column-reverse;
+    justify-content: center;
+    align-items:center;
+
+  } 
   img{
     display:none;
     @media screen and (max-width:420px){
@@ -64,6 +77,12 @@ export const ColumnBoxEnd = styled.div`
   justify-content:flex-end;
   margin-top: 1rem
 `;
+
+export const Text = styled.p`
+  font-size:1rem;
+  text-align:center;
+  color:${({ theme }) => (theme.colors.text)}
+`
 
 export const Label = styled.p`
   font-size:1rem;

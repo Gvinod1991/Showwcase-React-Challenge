@@ -10,7 +10,7 @@ import SelectInput from '../components/SelectInput';
 import EducationsList from '../components/EducationsList';
 
 import { showToaster, TOAST_TYPE } from '../utilities';
-import { saveEducationalExperiences, getUniversities } from '../store/action';
+import { saveEducationalExperiences } from '../store/action';
 import {
   ShowcaseWrapper,
   ContentWrapper,
@@ -22,7 +22,8 @@ import {
   ColumnBoxEnd,
   Label,
   AddNewBtnWrapper,
-  ErrorLabel
+  ErrorLabel,
+  Text
 } from '../styles/showcase.styles';
 const menuIconURl = '/menu.svg';
 
@@ -112,9 +113,10 @@ export default function ShowCase() {
       <AddNewBtnWrapper>
         <ImageIcon url={menuIconURl} onClick={() => setShowSideNav(!showSideNav)} />
         <Button onClick={() => setModalIsOpen(true)}> Add new education</Button>
+        <Button onClick={() => router.push('/')}> Back to home</Button>
       </AddNewBtnWrapper>
       {educationalExperiencesList && educationalExperiencesList.length === 0 &&
-        <Label>you can add your educational experiences!</Label>
+        <Text>you can add your educational experiences!</Text>
       }
       {educationalExperiencesList && educationalExperiencesList.length > 0 &&
         <ContentWrapper>

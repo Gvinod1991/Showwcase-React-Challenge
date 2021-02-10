@@ -23,7 +23,7 @@ export const Div = styled.div`
     display:block;
     padding:0.5rem;
     cursor:pointer;
-    text-align:center;
+    margin-left: 1rem;
   }
   a:hover{
     color: ${({ theme }) => theme.colors.light};
