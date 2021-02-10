@@ -10,7 +10,6 @@ export type InputComponentProps = {
 }
 
 export default function Input({ onChange, inputType, ...otherProps }: InputComponentProps) {
-  console.log(inputType);
   return <StyledInput onChange={onChange} inputType={inputType} {...otherProps} />
 }
 

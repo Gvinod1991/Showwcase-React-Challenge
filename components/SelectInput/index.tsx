@@ -1,10 +1,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import Input from '../Input';
-import { debounce } from '../../utilities';
 import { getUniversities } from '../../store/action';
+import { debounce } from "../../utilities";
+import {
+  Loader, Dropdown,
+  DropdownContent, DropdownContentSpan,
+  Label
+} from './selectInput.styles';
 
 interface SelectInputProps {
   handleChange: Function,
@@ -19,7 +23,7 @@ interface RootState {
     universitiesList: any[]
   },
 }
-const DELAY = 500;
+const DELAY = 1000;
 export default function SelectInput({ handleChange, inputValue }: SelectInputProps) {
 
   const [showSearchList, setShowSearchList] = useState<boolean>(false);
@@ -30,11 +34,16 @@ export default function SelectInput({ handleChange, inputValue }: SelectInputPro
     ({ ShowcaseReducer: { universitiesList, loading } }: RootState) => ({ universitiesList, loading })
   );
 
+  useEffect(() => {
+    setSearchQuery(inputValue);
+  }, [inputValue]);
+
   const handleInputChange = (e) => {
     setSearchInProgress(true);
     setShowSearchList(true);
     setSearchQuery(e.currentTarget.value);
   }
+
   const handleClick = (name) => {
     setSearchInProgress(false);
     setShowSearchList(false);
@@ -42,17 +51,17 @@ export default function SelectInput({ handleChange, inputValue }: SelectInputPro
     handleChange(name);
   }
 
+  const dispatchWithDebounce = useCallback(debounce(dispatch, DELAY), []);
   useEffect(() => {
-    const debounceFetchUniversities = debounce(dispatch, DELAY);
     if (searchQuery.length > 0 && searchInProgress) {
-      debounceFetchUniversities(getUniversities(searchQuery));
+      dispatchWithDebounce(getUniversities(searchQuery));
     }
   }, [searchQuery, searchInProgress]);
 
   return <>
     <Input onChange={(e) => handleInputChange(e)} value={searchQuery} placeholder="School Name" />
+    {loading && <Loader />}
     <Dropdown>
-      {loading && <p>loading....</p>}
       {showSearchList && universitiesList && (
         <DropdownContent >
           {universitiesList.length > 0 ? (
@@ -65,43 +74,10 @@ export default function SelectInput({ handleChange, inputValue }: SelectInputPro
               </DropdownContentSpan>
             ))
           ) : (
-              <span>No Results found</span>
+              <Label>No results found!</Label>
             )}
         </DropdownContent>
       )}
     </Dropdown>
   </>
 }
-
-export const Dropdown = styled.div`
-  position: relative;
-  display:  block;
-`;
-
-export const DropdownContent = styled.div`
-  display: block;
-  position: absolute;
-  background-color: ${({ theme }) => (theme.colors.grey)};
-  width: 100%;
-  overflow: auto;
-  border-radius: 0 0 0.4rem 0.4rem;
-  z-index: 1;
-  max-height: 40vh;
-  cursor: pointer;
-  margin-top: -0.1rem;
-`;
-
-export const DropdownContentSpan = styled.div`
-  color: black;
-  padding: 0.4rem;
-  text-decoration: none;
-  display: block;
-  &:hover{
-    background-color: #f6f6f6;
-  }
-`;
-
-export const Label = styled.p`
-  font-size:1rem;
-  color:${({ theme }) => (theme.colors.text)}
-`;
