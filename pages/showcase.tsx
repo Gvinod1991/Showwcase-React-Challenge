@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef, createRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import SideNav from '../../components/SideNav';
-import Button from '../../components/Button';
-import ImageIcon from '../../components/ImageIcon';
-import ModalComponent from '../../components/Modal';
-import Input from '../../components/Input';
-import SelectInput from '../../components/SelectInput';
-import EducationsList from '../../components/EducationsList';
+import SideNav from '../components/SideNav';
+import Button from '../components/Button';
+import ImageIcon from '../components/ImageIcon';
+import ModalComponent from '../components/Modal';
+import Input from '../components/Input';
+import SelectInput from '../components/SelectInput';
+import EducationsList from '../components/EducationsList';
 
-import { showToaster, TOAST_TYPE } from '../../utilities';
-import { saveEducationalExperiences, getUniversities } from '../../store/action';
+import { showToaster, TOAST_TYPE } from '../utilities';
+import { saveEducationalExperiences, getUniversities } from '../store/action';
 import {
   ShowcaseWrapper,
   ContentWrapper,
@@ -23,7 +23,7 @@ import {
   Label,
   AddNewBtnWrapper,
   ErrorLabel
-} from '../../styles/showcase.styles';
+} from '../styles/showcase.styles';
 const menuIconURl = '/menu.svg';
 
 interface RootState {
@@ -62,9 +62,6 @@ export default function ShowCase() {
     endYear: "",
     grade: ""
   });
-
-  const elementsRef = useRef(educationalExperiencesList.map(() => createRef()));
-
   useEffect(() => {
     if (!userName || userName === "") {
       router.push('/');
@@ -99,6 +96,9 @@ export default function ShowCase() {
     showToaster({ type: TOAST_TYPE.SUCCESS, message: "Education details saved!" });
     setEducationalExperiences(initialEducationalExperiences);
   }
+
+  const elementsRef = useRef(educationalExperiencesList.map(() => createRef()));
+
   const {
     schoolName,
     degree,

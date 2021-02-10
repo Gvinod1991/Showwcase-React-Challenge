@@ -19,14 +19,13 @@ export const Div = styled.div`
   height: 100%;
   min-height:500px;
   flex: 0 0 auto;
-  ul {
-    list-style:none;
-  }
-  ul li {
-    padding:0.4rem;
+  a{
+    display:block;
+    padding:0.5rem;
     cursor:pointer;
+    text-align:center;
   }
-  ul li:hover{
+  a:hover{
     color: ${({ theme }) => theme.colors.light};
   }
   @media screen and (min-width:421px){

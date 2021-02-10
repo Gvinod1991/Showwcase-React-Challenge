@@ -1,4 +1,5 @@
 import { Div } from './sidenav.styles';
+import { Link } from 'react-scroll';
 import { getShortString } from "../../utilities";
 interface SideNavProps {
   showSideNav: Boolean
@@ -6,23 +7,18 @@ interface SideNavProps {
   elementsRef: any,
 }
 export default function SideNav({ showSideNav, educationalExperiences, elementsRef }: SideNavProps) {
-  const navigateTo = (index) => {
-    elementsRef.current[index] && elementsRef.current[index].current.scrollIntoView();
-  }
   return <>
     <Div showSideNav={showSideNav}>
-      <ul>
-        {educationalExperiences && educationalExperiences.length > 0 &&
-          educationalExperiences.map((education, index) => (
-            <li key={education.schoolName} onClick={() => navigateTo(index)}>{getShortString(
-              {
-                title: education.schoolName,
-                length: 20
-              })
-            }
-            </li>)
-          )}
-      </ul>
+      {educationalExperiences && educationalExperiences.length > 0 &&
+        educationalExperiences.map((education, index) => (
+          <Link to={education.schoolName} key={education.schoolName}>{getShortString(
+            {
+              title: education.schoolName,
+              length: 20
+            })
+          }
+          </Link>)
+        )}
     </Div>
   </>
 }

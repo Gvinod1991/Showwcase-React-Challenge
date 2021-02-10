@@ -7,14 +7,12 @@ interface EducationsListProps {
 
 export default function EducationsList(
   {
-    educationalExperiences,
-    elementsRef
+    educationalExperiences
   }: EducationsListProps
 ) {
   return <>
     {educationalExperiences.map((education, index) => (
       <EducationalExperienceCard
-        reference={elementsRef.current ? elementsRef.current[index] : null}
         key={education.schoolName}
         {...education}
       />))
